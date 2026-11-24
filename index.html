@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Maxim Barannikov — digital contact card">
+<title>Maxim Barannikov | Contact</title>
+<style>
+:root { color-scheme: light; --ink:#172033; --muted:#657084; --line:#e4e8ef; --paper:#f5f7fa; --accent:#1c3f70; }
+* { box-sizing:border-box }
+body { margin:0; min-height:100vh; display:grid; place-items:center; padding:24px; background:var(--paper); color:var(--ink); font:16px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif }
+main { width:min(100%,480px); background:white; border:1px solid var(--line); border-radius:20px; padding:30px; box-shadow:0 12px 40px rgba(20,35,60,.08) }
+.kicker { color:var(--muted); font-size:12px; letter-spacing:.13em; text-transform:uppercase; margin:0 0 12px }
+h1 { font-size:27px; line-height:1.2; margin:0 0 8px }
+.role { margin:0 0 5px; font-weight:600 }
+.credential { margin:0 0 5px; color:var(--accent); font-size:14px; font-weight:600 }
+.org { margin:0 0 22px; color:var(--muted); font-size:14px }
+.contact { border-top:1px solid var(--line); padding-top:16px; margin-top:16px; font-size:14px }
+.contact div { margin:4px 0 }
+.contact a { color:var(--accent); text-decoration:none }
+.lang-label { font-weight:650; margin:22px 0 10px }
+.languages { display:grid; gap:9px }
+button { width:100%; border:1px solid var(--line); background:white; color:var(--ink); padding:13px 15px; border-radius:12px; font-size:15px; text-align:left; cursor:pointer }
+button:hover,button:focus { border-color:var(--accent); outline:none }
+button span { float:right; color:var(--muted) }
+.note { color:var(--muted); font-size:12px; margin:18px 0 0 }
+</style>
+</head>
+<body>
+<main>
+  <p class="kicker" id="kicker">Электронная визитка</p>
+  <h1 id="name">Максим Сергеевич Баранников</h1>
+  <p class="role" id="role">Заместитель руководителя аппарата</p>
+  <p class="credential" id="credential">Кандидат юридических наук</p>
+  <p class="org" id="org">Комитет Государственной Думы по международным делам</p>
+  <div class="contact">
+    <div><strong id="work-label">Рабочий телефон:</strong> <a href="tel:+74956928925">+7 495 692-89-25</a></div>
+    <div><strong id="mobile-label">Мобильный телефон:</strong> <a href="tel:+79299011531">+7 929 901-15-31</a></div>
+    <div><strong>Email:</strong> <a href="mailto:msb@duma.gov.ru">msb@duma.gov.ru</a></div>
+  </div>
+  <p class="lang-label" id="choose">Выберите язык контакта</p>
+  <div class="languages">
+    <button type="button" onclick="downloadContact('ru')">🇷🇺 Русский <span>↓</span></button>
+    <button type="button" onclick="downloadContact('en')">🇬🇧 English <span>↓</span></button>
+    <button type="button" onclick="downloadContact('zh')">🇨🇳 中文 <span>↓</span></button>
+  </div>
+  <p class="note" id="instruction">Нажмите на нужный язык, чтобы скачать контакт для адресной книги телефона.</p>
+</main>
+<script>
+const languages = {
+ ru: { kicker:"Электронная визитка", role:"Заместитель руководителя аппарата", credential:"Кандидат юридических наук", org:"Комитет Государственной Думы по международным делам", work:"Рабочий телефон:", mobile:"Мобильный телефон:", choose:"Выберите язык контакта", instruction:"Нажмите на нужный язык, чтобы скачать контакт для адресной книги телефона." },
+ en: { kicker:"Digital contact card", role:"Deputy Chief of Staff", credential:"Candidate of Legal Sciences (PhD in Law)", org:"Committee on International Affairs of the State Duma", work:"Office phone:", mobile:"Mobile phone:", choose:"Choose contact language", instruction:"Choose a language to download the contact for your phone's address book." },
+ zh: { kicker:"电子名片", role:"办公厅副主任", credential:"俄罗斯法学副博士（候选法学科学学位）", org:"俄罗斯国家杜马国际事务委员会", work:"办公电话：", mobile:"手机：", choose:"请选择联系人语言", instruction:"选择语言，下载联系人并保存到手机通讯录。" }
+};
+function setLanguage(lang) {
+ const d = languages[lang];
+ document.getElementById("kicker").textContent = d.kicker;
+ document.getElementById("role").textContent = d.role;
+ document.getElementById("credential").textContent = d.credential;
+ document.getElementById("org").textContent = d.org;
+ document.getElementById("work-label").textContent = d.work;
+ document.getElementById("mobile-label").textContent = d.mobile;
+ document.getElementById("choose").textContent = d.choose;
+ document.getElementById("instruction").textContent = d.instruction;
+ document.documentElement.lang = lang === "zh" ? "zh-CN" : lang;
+}
+function downloadContact(lang) {
+ const files = {ru:"contact-ru.vcf", en:"contact-en.vcf", zh:"contact-zh.vcf"};
+ const a = document.createElement("a");
+ a.href = files[lang]; a.download = files[lang];
+ document.body.appendChild(a); a.click(); a.remove();
+}
+setLanguage("ru");
+</script>
+</body>
+</html>
